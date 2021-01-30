@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Red Rose", cursive !important;
+}
+
+// anchors
+.no-dec {
+  text-decoration: none;
+  color: black;
+
+  &:hover {
+    color: black;
+  }
+}

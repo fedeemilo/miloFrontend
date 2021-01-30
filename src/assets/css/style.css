@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Red Rose", cursive !important;
+}
+
+.no-dec {
+  text-decoration: none;
+  color: black;
+}
+
+.no-dec:hover {
+  color: black;
+}
+
+.components__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-top: 1.3rem;
+}
+
+.components__header a {
+  text-decoration: none;
+  color: black;
+}
+
+.components__header a:hover {
+  color: black;
+  opacity: 0.8;
+}
+
+.components__header a ion-icon {
+  font-size: 3rem;
+}
+
+.components__table .ion-edit ion-icon {
+  color: yellow;
+  font-size: 1.5rem;
+}
+
+.components__table .ion-delete ion-icon {
+  color: red;
+  font-size: 1.5rem;
+}

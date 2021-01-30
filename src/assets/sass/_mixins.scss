@@ -1,0 +1,14 @@
+
+// flex to the center
+@mixin flexCenter() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// flex to the end
+@mixin flexEnd() {
+    display: flex;
+    justify-content: end;
+    align-items: flex-end;
+}
