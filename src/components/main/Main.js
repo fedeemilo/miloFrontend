@@ -5,6 +5,8 @@ function Main() {
     return (
         <div>
             <NavBar />
+
+            
         </div>
     )
 }

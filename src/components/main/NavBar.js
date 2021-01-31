@@ -6,7 +6,7 @@ import {
   NavbarBrand,
   NavbarToggler,
   NavItem,
-  NavLink,
+  NavLink
 } from "reactstrap";
 
 function NavBar() {
