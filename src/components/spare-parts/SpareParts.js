@@ -74,8 +74,6 @@ function SpareParts() {
     }
   };
 
-  const handleCreate = () => {};
-
   const onEditDismiss = () => setEditAlert(false);
 
   const onDeleteDismiss = () => setDeleteAlert(false);
@@ -86,8 +84,8 @@ function SpareParts() {
 
       {/* header */}
       <div className="components__header d-flex justify-content-between">
-        <h3 className='ml-5'>Repuestos/Componentes</h3>
-        <a href="#" onClick={toggleCreate} className='mr-3'>
+        <h3 className="ml-5">Repuestos/Componentes</h3>
+        <a href="#" onClick={toggleCreate} className="mr-3">
           <ion-icon name="add-circle-outline"></ion-icon>
         </a>
       </div>
@@ -144,14 +142,14 @@ function SpareParts() {
             {repuestos.map((rep, i) => (
               <tr key={rep._id}>
                 <th scope="row">{i + 1}</th>
-                <td>{rep.nombre}</td>
+                <td>{rep.nombre.toUpperCase()}</td>
                 <td>
                   {rep.descripcion
                     ? rep.descripcion
                     : "(Sin Descripción)"}
                 </td>
                 <td>{rep.cantidad}</td>
-                <td>{rep.ubicacion}</td>
+                <td>{rep.ubicacion.toUpperCase()}</td>
                 <td className="d-flex justify-content-center">
                   {/* edit */}
                   <a
