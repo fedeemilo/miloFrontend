@@ -6,7 +6,12 @@ function Main() {
         <div>
             <NavBar />
 
-            
+            {/* boxes */}
+            <div>
+
+                
+
+            </div>
         </div>
     )
 }

@@ -65,7 +65,9 @@ function SpareParts() {
       let id = repuesto._id;
 
       axios
-        .delete(`http://localhost:8000/repuestos/${id}`)
+        .delete(
+          `https://milo-soft-backend.herokuapp.com/repuestos/${id}`
+        )
         .then(() => setDeleteAlert(true))
         .catch((err) => console.log(err));
 
