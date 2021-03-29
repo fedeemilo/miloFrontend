@@ -1,0 +1,48 @@
+.components {
+  &__header {
+    @include flexCenter();
+    margin-top: 1.3rem;
+
+    a {
+      text-decoration: none;
+      color: black;
+
+      &:hover {
+        color: black;
+        opacity: 0.8;
+      }
+
+      ion-icon {
+        font-size: 3rem;
+      }
+    }
+  }
+
+  &__table {
+
+    .table td, .table th {
+      vertical-align: middle;
+    }
+
+    .ion-edit {
+      ion-icon {
+        color: yellow;
+        font-size: 1.5rem;
+      }
+    }
+
+    .ion-delete {
+      ion-icon {
+        color: red;
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+.spare-img {
+  @include flexCenter();
+  width: 450px;
+  height: 400px;
+  object-fit: contain;
+}
