@@ -21,6 +21,7 @@ import {
   DeleteIcon,
   EditIcon
 } from "../";
+import { __db__ } from "../../constants";
 import PlusIcon from "../utils/PlusIcon";
 
 function SpareParts() {
@@ -44,7 +45,7 @@ function SpareParts() {
       const fetchRepuestos = async () => {
         try {
           let response = await axios.get(
-            "http://localhost:8000/repuestos"
+            `${__db__}/repuestos`
           );
           console.log(response);
           setRepuestos(response.data);

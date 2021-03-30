@@ -9,6 +9,7 @@ import {
   Label,
   Spinner
 } from "reactstrap";
+import { __db__, __prod__ } from "../../constants";
 
 function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
   const [name, setName] = useState("");
@@ -85,7 +86,7 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
       setLoading(true);
       let {
         data: { repuesto }
-      } = await axios.post("http://localhost:8000/repuestos", fData);
+      } = await axios.post(`${__db__}/repuestos`, fData);
 
       if (repuesto) {
         setLoading(false);
