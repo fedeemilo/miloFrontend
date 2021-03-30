@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Form,
@@ -10,7 +10,7 @@ import {
   Spinner
 } from "reactstrap";
 
-function CreateForm({ toggleCreate }) {
+function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [loc, setLoc] = useState("");
@@ -81,28 +81,23 @@ function CreateForm({ toggleCreate }) {
       fData.append("datasheet", sheet);
     });
 
-    for (var pair of fData.entries()) {
-      console.log(pair[0] + ": " + pair[1]);
-    }
-
     try {
-      setLoading(true)
-      let response = await axios.post(
-        "http://localhost:8000/repuestos",
-        fData
-      );
+      setLoading(true);
+      let {
+        data: { repuesto }
+      } = await axios.post("http://localhost:8000/repuestos", fData);
 
-      if (response) {
-        setLoading(false)
+      if (repuesto) {
+        setLoading(false);
+        setRepuestos(repuestos => [...repuestos, repuesto]);
       }
-
-      console.log(response.data);
     } catch (error) {
       console.log(error);
-      setLoading(false)
+      setLoading(false);
     }
 
     toggleCreate();
+    setCreateAlert(true);
   };
 
   return (

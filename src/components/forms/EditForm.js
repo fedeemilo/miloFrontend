@@ -1,32 +1,76 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  Label,
+  Spinner
+} from "reactstrap";
+import { __db__ } from "../../constants";
 
-function EditForm({ spare, toggleEdit, setEditAlert }) {
+function EditForm({
+  spare,
+  toggleEdit,
+  setEditAlert,
+  setRepuestos,
+  repuestos
+}) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [quant, setQuant] = useState(0);
   const [loc, setLoc] = useState("");
+  const [images, setImages] = useState([]);
+  const [datasheet, setDatasheet] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleEditName = (e) => {
+  const handleEditName = e => {
     setName(e.target.value);
   };
 
-  const handleEditDesc = (e) => {
+  const handleEditDesc = e => {
     setDesc(e.target.value);
   };
 
-  const handleEditQuant = (e) => {
+  const handleEditQuant = e => {
     setQuant(e.target.value);
   };
 
-  const handleEditLocation = (e) => {
+  const handleEditLocation = e => {
     setLoc(e.target.value);
   };
 
-  const handleEditSubmit = async (e) => {
+  const handleCreateDatasheet = e => {
+    let datasheets = e.target.files;
+    let datasheetsArray = [];
+
+    console.log(datasheets);
+
+    Array.from(datasheets).forEach(datasheet => {
+      datasheetsArray.push(datasheet);
+    });
+
+    setDatasheet(datasheetsArray);
+  };
+
+  const handleCreateImages = e => {
+    let imgs = e.target.files;
+    let imgsArray = [];
+
+    console.log(imgs);
+
+    Array.from(imgs).forEach(img => {
+      imgsArray.push(img);
+    });
+
+    setImages(imgsArray);
+  };
+
+  const handleEditSubmit = async e => {
     e.preventDefault();
     let id = spare._id;
+    let fData = new FormData();
 
     let body = {
       nombre: name,
@@ -35,13 +79,39 @@ function EditForm({ spare, toggleEdit, setEditAlert }) {
       ubicacion: loc
     };
 
+    for (let key in body) {
+      fData.append(key, body[key]);
+    }
 
-    let res = await axios.put(
-      `https://milo-soft-backend.herokuapp.com/repuestos/${id}`,
-      body
-    );
+    images.forEach(img => {
+      fData.append("images", img);
+    });
 
-    console.log(res.data);
+    datasheet.forEach(sheet => {
+      fData.append("datasheet", sheet);
+    });
+
+    try {
+      setLoading(true);
+      let {
+        data: { repuesto }
+      } = await axios.put(`${__db__}/repuestos/${id}`, fData);
+
+      if (repuesto) {
+        setLoading(false);
+        setRepuestos(repuestos =>
+          repuestos.map(rep => {
+            if (rep._id === id) {
+              return Object.assign({}, rep, repuesto);
+            }
+            return rep;
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
 
     toggleEdit();
     setEditAlert(true);
@@ -99,6 +169,31 @@ function EditForm({ spare, toggleEdit, setEditAlert }) {
             onChange={handleEditLocation}
           />
         </FormGroup>
+        <FormGroup>
+          <Label for="images">Imágenes</Label>
+          <Input
+            type="file"
+            name="images"
+            id="imagesIn"
+            onChange={handleCreateImages}
+            multiple
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="datasheet">Datasheet</Label>
+          <Input
+            type="file"
+            name="datasheet"
+            id="datasheetIn"
+            onChange={handleCreateDatasheet}
+            multiple
+          />
+        </FormGroup>
+        <Spinner
+          color="primary"
+          style={{ marginLeft: "15rem" }}
+          className={`${!loading ? "d-none" : ""}`}
+        />
         <Button
           color="danger"
           className="float-right ml-2"

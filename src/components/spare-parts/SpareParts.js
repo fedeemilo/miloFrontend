@@ -34,6 +34,7 @@ function SpareParts() {
   const [spareEdit, setSpareEdit] = useState({});
   const [editAlert, setEditAlert] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
+  const [createAlert, setCreateAlert] = useState(false);
   const [searchValSpare, setSearchValSpare] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
@@ -76,7 +77,7 @@ function SpareParts() {
     setActiveIndex(newIndex);
   };
 
-  console.log(repImages)
+  console.log(repImages);
 
   const slides = repImages.map(item => {
     return (
@@ -147,6 +148,8 @@ function SpareParts() {
 
   const onEditDismiss = () => setEditAlert(false);
 
+  const onCreateDismiss = () => setCreateAlert(false);
+
   const onDeleteDismiss = () => setDeleteAlert(false);
 
   return (
@@ -172,6 +175,16 @@ function SpareParts() {
         </div>
         {/* alert */}
         <div>
+          <Alert
+            color="success"
+            isOpen={createAlert}
+            toggle={onCreateDismiss}
+            fade={true}
+            className="mt-5 mr-3"
+            style={{ position: "relative", top: "5rem" }}
+          >
+            Componente creado con éxito!
+          </Alert>
           <Alert
             color="success"
             isOpen={editAlert}
@@ -268,6 +281,8 @@ function SpareParts() {
               spare={spareEdit}
               toggleEdit={toggleEdit}
               setEditAlert={setEditAlert}
+              repuestos={repuestos}
+              setRepuestos={setRepuestos}
             />
           </ModalBody>
         </Modal>
@@ -302,7 +317,12 @@ function SpareParts() {
           </ModalHeader>
 
           <ModalBody>
-            <CreateForm toggleCreate={toggleCreate} />
+            <CreateForm
+              toggleCreate={toggleCreate}
+              repuestos={repuestos}
+              setRepuestos={setRepuestos}
+              setCreateAlert={setCreateAlert}
+            />
           </ModalBody>
         </Modal>
       </div>
