@@ -13,7 +13,15 @@ import {
   ModalHeader,
   Table
 } from "reactstrap";
-import { CreateForm, EditForm, NavBar, SpareForm } from "../";
+import {
+  CreateForm,
+  EditForm,
+  NavBar,
+  SpareForm,
+  DeleteIcon,
+  EditIcon
+} from "../";
+import PlusIcon from "../utils/PlusIcon";
 
 function SpareParts() {
   const [repuesto, setRepuesto] = useState({});
@@ -67,6 +75,8 @@ function SpareParts() {
     if (animating) return;
     setActiveIndex(newIndex);
   };
+
+  console.log(repImages)
 
   const slides = repImages.map(item => {
     return (
@@ -145,15 +155,15 @@ function SpareParts() {
 
       {/* header */}
       <div className="components__header d-flex justify-content-between">
-        <h3 className="ml-5">Repuestos/Componentes</h3>
+        <h3 className="ml-4 text-uppercase">Repuestos/Componentes</h3>
         <a href="#" onClick={toggleCreate} className="mr-3">
-          <ion-icon name="add-circle-outline"></ion-icon>
+          <PlusIcon />
         </a>
       </div>
 
       {/* form */}
       <div className="components__form d-flex justify-content-between">
-        <div className="col-lg-6 ml-5">
+        <div className="col-lg-6 ml-4">
           <SpareForm
             repuestos={repuestos}
             setRepuestos={setRepuestos}
@@ -166,7 +176,7 @@ function SpareParts() {
             color="success"
             isOpen={editAlert}
             toggle={onEditDismiss}
-            fade={false}
+            fade={true}
             className="mt-5 mr-3"
             style={{ position: "relative", top: "5rem" }}
           >
@@ -176,7 +186,7 @@ function SpareParts() {
             color="danger"
             isOpen={deleteAlert}
             toggle={onDeleteDismiss}
-            fade={false}
+            fade={true}
             className="mt-5 mr-3"
             style={{ position: "relative", top: "5rem" }}
           >
@@ -196,6 +206,7 @@ function SpareParts() {
               <th>Cantidad</th>
               <th>Ubicación</th>
               <th>Imágenes</th>
+              <th>Datasheet</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -221,6 +232,7 @@ function SpareParts() {
                     <p>(Sin imágenes)</p>
                   )}
                 </td>
+                <td>datasheet</td>
                 <td className="">
                   {/* edit */}
                   <a
@@ -228,7 +240,7 @@ function SpareParts() {
                     className="ion-edit no-dec"
                     onClick={e => handleEdit(e, rep)}
                   >
-                    <ion-icon name="create-outline"></ion-icon>
+                    <EditIcon />
                   </a>
                   {/* delete */}
                   <a
@@ -236,7 +248,7 @@ function SpareParts() {
                     className="ion-delete no-dec ml-3"
                     onClick={() => toggleDelete(rep)}
                   >
-                    <ion-icon name="trash-outline"></ion-icon>
+                    <DeleteIcon />
                   </a>
                 </td>
               </tr>

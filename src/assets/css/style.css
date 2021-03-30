@@ -47,9 +47,8 @@ body {
   vertical-align: middle;
 }
 
-.components__table .ion-edit ion-icon {
+.components__table .ion-edit .svg {
   color: yellow;
-  font-size: 1.5rem;
 }
 
 .components__table .ion-delete ion-icon {
