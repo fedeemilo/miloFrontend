@@ -9,7 +9,7 @@ import {
   Label,
   Spinner
 } from "reactstrap";
-import { __db__, __prod__ } from "../../constants";
+import { __db__ } from "../../constants";
 
 function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
   const [name, setName] = useState("");

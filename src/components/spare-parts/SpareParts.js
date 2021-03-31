@@ -4,15 +4,15 @@ import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
-  Carousel,
-  CarouselControl,
-  CarouselIndicators,
   CarouselItem,
   Modal,
   ModalBody,
   ModalHeader,
   Table
 } from "reactstrap";
+
+import Carousel from "react-bootstrap/Carousel";
+
 import {
   CreateForm,
   EditForm,
@@ -37,17 +37,17 @@ function SpareParts() {
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [createAlert, setCreateAlert] = useState(false);
   const [searchValSpare, setSearchValSpare] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
+  const [index, setIndex] = useState(0);
+
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
 
   useEffect(() => {
     if (!searchValSpare) {
       const fetchRepuestos = async () => {
         try {
-          let response = await axios.get(
-            `${__db__}/repuestos`
-          );
-          console.log(response);
+          let response = await axios.get(`${__db__}/repuestos`);
           setRepuestos(response.data);
         } catch (error) {
           console.log(error);
@@ -58,38 +58,15 @@ function SpareParts() {
     }
   }, [searchValSpare]);
 
-  const next = () => {
-    if (animating) return;
-
-    const nextIndex =
-      activeIndex === repImages.length - 1 ? 0 : activeIndex + 1;
-    setActiveIndex(nextIndex);
-  };
-
-  const previous = () => {
-    if (animating) return;
-    const nextIndex =
-      activeIndex === 0 ? repImages.length - 1 : activeIndex - 1;
-    setActiveIndex(nextIndex);
-  };
-
-  const goToIndex = newIndex => {
-    if (animating) return;
-    setActiveIndex(newIndex);
-  };
-
-  console.log(repImages);
-
   const slides = repImages.map(item => {
     return (
-      <CarouselItem
-        onExiting={() => setAnimating(true)}
-        onExited={() => setAnimating(false)}
-        key={item.url}
-        className="d-flex justify-content-center"
-      >
-        <img src={item.url} alt="img" className="spare-img" />
-      </CarouselItem>
+      <Carousel.Item>
+        <img
+          className="d-block w-100"
+          src={item.src}
+          alt={item.altText}
+        />
+      </Carousel.Item>
     );
   });
 
@@ -144,7 +121,16 @@ function SpareParts() {
   const handleImages = (e, rep) => {
     toggleImages();
     let images = rep.images;
-    setRepImages(images);
+
+    let newImages = images.map((img, i) => {
+      return {
+        src: img.url,
+        altText: `img-${i}`,
+        caption: rep.nombre
+      };
+    });
+
+    setRepImages(newImages);
   };
 
   const onEditDismiss = () => setEditAlert(false);
@@ -176,6 +162,7 @@ function SpareParts() {
         </div>
         {/* alert */}
         <div>
+          {/* success alert */}
           <Alert
             color="success"
             isOpen={createAlert}
@@ -186,6 +173,7 @@ function SpareParts() {
           >
             Componente creado con éxito!
           </Alert>
+
           <Alert
             color="success"
             isOpen={editAlert}
@@ -196,6 +184,8 @@ function SpareParts() {
           >
             Componente editado con éxito!
           </Alert>
+
+          {/* repuesto delete alert */}
           <Alert
             color="danger"
             isOpen={deleteAlert}
@@ -329,34 +319,15 @@ function SpareParts() {
       </div>
 
       {/* modal for pictures */}
-      <div>
+      <div >
         <Modal isOpen={modalImages} toggle={toggleImages}>
           <ModalHeader toggle={toggleImages}>
             Imágenes del Repuesto/Componente
           </ModalHeader>
           <ModalBody className="mx-auto">
             {repImages && (
-              <Carousel
-                activeIndex={activeIndex}
-                next={next}
-                previous={previous}
-              >
-                <CarouselIndicators
-                  items={repImages}
-                  activeIndex={activeIndex}
-                  onClickHandler={goToIndex}
-                />
+              <Carousel activeIndex={index} onSelect={handleSelect}>
                 {slides}
-                <CarouselControl
-                  direction="prev"
-                  directionText="Previous"
-                  onClickHandler={previous}
-                />
-                <CarouselControl
-                  direction="next"
-                  directionText="Next"
-                  onClickHandler={next}
-                />
               </Carousel>
             )}
           </ModalBody>
