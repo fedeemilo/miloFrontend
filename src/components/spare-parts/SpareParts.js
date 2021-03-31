@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
-  CarouselItem,
   Modal,
   ModalBody,
   ModalHeader,
@@ -12,6 +11,7 @@ import {
 } from "reactstrap";
 
 import Carousel from "react-bootstrap/Carousel";
+import ButtonRB from "react-bootstrap/Button";
 
 import {
   CreateForm,
@@ -236,7 +236,15 @@ function SpareParts() {
                     <p>(Sin imágenes)</p>
                   )}
                 </td>
-                <td>datasheet</td>
+                <td>
+                  {rep.datasheet.length > 0 ? (
+                    <a href={rep.datasheet[0].url} download={rep.nombre}>
+                      Descargar
+                    </a>
+                  ) : (
+                    <p>(Sin datasheet)</p>
+                  )}
+                </td>
                 <td className="">
                   {/* edit */}
                   <a
@@ -319,7 +327,7 @@ function SpareParts() {
       </div>
 
       {/* modal for pictures */}
-      <div >
+      <div>
         <Modal isOpen={modalImages} toggle={toggleImages}>
           <ModalHeader toggle={toggleImages}>
             Imágenes del Repuesto/Componente
