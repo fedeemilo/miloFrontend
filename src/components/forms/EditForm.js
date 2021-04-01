@@ -9,14 +9,9 @@ import {
   Spinner
 } from "reactstrap";
 import { __db__ } from "../../constants";
+import CancelIcon from "../utils/CancelIcon";
 
-function EditForm({
-  spare,
-  toggleEdit,
-  setEditAlert,
-  setRepuestos,
-  repuestos
-}) {
+function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [quant, setQuant] = useState(0);
@@ -24,6 +19,8 @@ function EditForm({
   const [images, setImages] = useState([]);
   const [datasheet, setDatasheet] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [cancelDS, setCancelDS] = useState(false);
+  const [cancelImgs, setCancelImgs] = useState(false);
 
   const handleEditName = e => {
     setName(e.target.value);
@@ -91,6 +88,9 @@ function EditForm({
       fData.append("datasheet", sheet);
     });
 
+    console.log(images);
+    console.log(datasheet);
+
     try {
       setLoading(true);
       let {
@@ -123,6 +123,8 @@ function EditForm({
       setDesc(spare.descripcion);
       setQuant(spare.cantidad);
       setLoc(spare.ubicacion);
+      setImages(spare.images);
+      setDatasheet(spare.datasheet);
     }
   }, [spare]);
 
@@ -169,26 +171,56 @@ function EditForm({
             onChange={handleEditLocation}
           />
         </FormGroup>
-        <FormGroup>
-          <Label for="images">Imágenes</Label>
-          <Input
-            type="file"
-            name="images"
-            id="imagesIn"
-            onChange={handleCreateImages}
-            multiple
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="datasheet">Datasheet</Label>
-          <Input
-            type="file"
-            name="datasheet"
-            id="datasheetIn"
-            onChange={handleCreateDatasheet}
-            multiple
-          />
-        </FormGroup>
+        {images.length > 0 && !cancelImgs ? (
+          <p className="d-flex align-items-center">
+            <strong>
+              {`${images.length} ${
+                images.length > 1 ? "archivos" : "archivo"
+              } de ${images.length > 1 ? "imágenes" : "imágen"}`}
+            </strong>
+            <CancelIcon
+              cancel="images"
+              cancelImgs={cancelImgs}
+              setCancelImgs={setCancelImgs}
+            />
+          </p>
+        ) : (
+          <FormGroup>
+            <Label for="images">Imágenes</Label>
+            <Input
+              type="file"
+              name="images"
+              id="imagesIn"
+              onChange={handleCreateImages}
+              multiple
+            />
+          </FormGroup>
+        )}
+        {datasheet.length > 0 && !cancelDS ? (
+          <p className="d-flex align-items-center">
+            <strong>
+              {`${datasheet.length} ${
+                datasheet.length > 1 ? "archivos" : "archivo"
+              } datasheet`}
+            </strong>
+            <CancelIcon
+              cancel="datasheet"
+              cancelDS={cancelDS}
+              setCancelDS={setCancelDS}
+            />
+          </p>
+        ) : (
+          <FormGroup>
+            <Label for="datasheet">Datasheet</Label>
+            <Input
+              type="file"
+              name="datasheet"
+              id="datasheetIn"
+              onChange={handleCreateDatasheet}
+              multiple
+            />
+          </FormGroup>
+        )}
         <Spinner
           color="primary"
           style={{ marginLeft: "15rem" }}

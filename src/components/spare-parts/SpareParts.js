@@ -11,7 +11,6 @@ import {
 } from "reactstrap";
 
 import Carousel from "react-bootstrap/Carousel";
-import ButtonRB from "react-bootstrap/Button";
 
 import {
   CreateForm,
@@ -238,7 +237,10 @@ function SpareParts() {
                 </td>
                 <td>
                   {rep.datasheet.length > 0 ? (
-                    <a href={rep.datasheet[0].url} download={rep.nombre}>
+                    <a
+                      href={rep.datasheet[0].url}
+                      download={rep.nombre}
+                    >
                       Descargar
                     </a>
                   ) : (
