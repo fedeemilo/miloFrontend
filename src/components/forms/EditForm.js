@@ -135,87 +135,92 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   return (
     <div>
       <Form onSubmit={handleEditSubmit}>
-        <FormGroup>
-          <Label for="nombre">Nombre</Label>
-          <Input
-            type="text"
-            name="nombre"
-            id="nombreIn"
-            value={name}
-            onChange={handleEditName}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="descripcion">Descripción</Label>
-          <Input
-            type="text"
-            name="descripcion"
-            id="descripcionIn"
-            value={desc}
-            onChange={handleEditDesc}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="cantidad">Cantidad</Label>
-          <Input
-            type="number"
-            name="cantidad"
-            id="cantidadIn"
-            value={quant}
-            onChange={handleEditQuant}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="ubicacion">Ubicación</Label>
-          <Input
-            type="text"
-            name="ubicacion"
-            id="ubicacionIn"
-            value={loc}
-            onChange={handleEditLocation}
-          />
-        </FormGroup>
-
-        <div className="d-flex flex-column">
-          <p
-            className={`font-sm ${images.length > 0 ? "" : "d-none"}`}
-          >
-            *Selecciona las <strong>imágenes</strong> que deseas
-            borrar
-          </p>
-          <div className="d-flex">
-            {images.length > 0 &&
-              images.map(img => (
-                <ImageBox
-                  img={img}
-                  arrCancelImgs={arrCancelImgs}
-                  setArrCancelImgs={setArrCancelImgs}
-                />
-              ))}
+        <div className='d-flex justify-content-around'>
+          <div className='width40'>
+            <FormGroup>
+              <Label for="nombre">Nombre</Label>
+              <Input
+                type="text"
+                name="nombre"
+                id="nombreIn"
+                value={name}
+                onChange={handleEditName}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="descripcion">Descripción</Label>
+              <Input
+                type="text"
+                name="descripcion"
+                id="descripcionIn"
+                value={desc}
+                onChange={handleEditDesc}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="cantidad">Cantidad</Label>
+              <Input
+                type="number"
+                name="cantidad"
+                id="cantidadIn"
+                value={quant}
+                onChange={handleEditQuant}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="ubicacion">Ubicación</Label>
+              <Input
+                type="text"
+                name="ubicacion"
+                id="ubicacionIn"
+                value={loc}
+                onChange={handleEditLocation}
+              />
+            </FormGroup>
+          </div>
+          <div>
+            <div className="d-flex flex-column">
+              <p
+                className={`font-sm mb-1 ${
+                  images.length > 0 ? "" : "d-none"
+                }`}
+              >
+                *Selecciona las <strong>imágenes</strong> que deseas
+                borrar
+              </p>
+              <div className="d-flex">
+                {images.length > 0 &&
+                  images.map(img => (
+                    <ImageBox
+                      img={img}
+                      arrCancelImgs={arrCancelImgs}
+                      setArrCancelImgs={setArrCancelImgs}
+                    />
+                  ))}
+              </div>
+            </div>
+            <FormGroup className="mt-3">
+              <Label for="images">Imágenes</Label>
+              <Input
+                type="file"
+                name="images"
+                id="imagesIn"
+                onChange={handleCreateImages}
+                multiple
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="datasheet">Datasheet</Label>
+              <Input
+                type="file"
+                name="datasheet"
+                id="datasheetIn"
+                onChange={handleCreateDatasheet}
+                multiple
+              />
+            </FormGroup>
           </div>
         </div>
-
-        <FormGroup className="mt-3">
-          <Label for="images">Imágenes</Label>
-          <Input
-            type="file"
-            name="images"
-            id="imagesIn"
-            onChange={handleCreateImages}
-            multiple
-          />
-        </FormGroup>
-
-        <FormGroup>
-          <Label for="datasheet">Datasheet</Label>
-          <Input
-            type="file"
-            name="datasheet"
-            id="datasheetIn"
-            onChange={handleCreateDatasheet}
-            multiple
-          />
-        </FormGroup>
 
         <Spinner
           color="primary"

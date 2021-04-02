@@ -20,7 +20,7 @@ const ImageBox = ({ img, arrCancelImgs, setArrCancelImgs }) => {
 
   return (
     <div
-      className={`image-box ${boxSelected ? "box-selected" : ""}`}
+      className={`image-box border-black-2 ${boxSelected ? "box-selected" : ""}`}
       onClick={() => setBoxSelected(!boxSelected)}
     >
       <img src={img.url} alt={`img-${img.public_id}`} />

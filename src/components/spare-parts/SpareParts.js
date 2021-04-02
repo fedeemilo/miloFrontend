@@ -292,11 +292,10 @@ function SpareParts() {
       </div>
 
       {/* modal for edition */}
+
       <div>
-        <Modal isOpen={modalEdit} toggleEdit={toggleEdit}>
-          <h3 className='mx-auto pt-3'>
-            Editar Repuesto|Componente
-          </h3>
+        <Modal size="lg" isOpen={modalEdit} toggleEdit={toggleEdit}>
+          <h3 className="mx-auto pt-3">Editar Repuesto|Componente</h3>
           <ModalBody>
             <EditForm
               spare={spareEdit}
@@ -312,10 +311,11 @@ function SpareParts() {
       {/* modal for deletion */}
       <div>
         <Modal isOpen={modalDelete} toggleDelete={toggleDelete}>
-          <ModalHeader toggleDelete={toggleDelete}>
+          <h4 className="fweight800 text-center pt-3">
             ¿Deseas eliminar este componente?
-          </ModalHeader>
-          <ModalBody>
+          </h4>
+
+          <ModalBody className="d-flex justify-content-center">
             <Button
               color="primary"
               className="mr-2"
@@ -332,7 +332,11 @@ function SpareParts() {
 
       {/* modal for creation */}
       <div>
-        <Modal isOpen={modalCreate} toggleCreate={toggleCreate}>
+        <Modal
+          size="lg"
+          isOpen={modalCreate}
+          toggleCreate={toggleCreate}
+        >
           <ModalHeader toggleCreate={toggleCreate}>
             Crear Nuevo Repuesto/Componente
           </ModalHeader>

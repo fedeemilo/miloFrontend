@@ -66,6 +66,7 @@ function SpareForm({ repuestos, setRepuestos, setSearchValSpare }) {
                 <FormGroup check>
                   <Label check style={{ fontSize: "1.5rem" }}>
                     <Input
+                    className='radio-filter'
                       style={{ width: "1.2rem", height: "1rem" }}
                       onChange={handleNameFilter}
                       type="radio"
@@ -80,6 +81,7 @@ function SpareForm({ repuestos, setRepuestos, setSearchValSpare }) {
                 <FormGroup check>
                   <Label check style={{ fontSize: "1.5rem" }}>
                     <Input
+                    className='radio-filter'
                       style={{ width: "1.2rem", height: "1rem" }}
                       onChange={handleDescFilter}
                       type="radio"

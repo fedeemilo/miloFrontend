@@ -110,66 +110,72 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
         onSubmit={handleCreateSubmit}
         encType="multipart/form-data"
       >
-        <FormGroup>
-          <Label for="nombre">Nombre</Label>
-          <Input
-            type="text"
-            name="nombre"
-            id="nombreIn"
-            placeholder="Escribe el nombre..."
-            onChange={handleCreateName}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="descripcion">Descripción</Label>
-          <Input
-            type="text"
-            name="descripcion"
-            id="descripcionIn"
-            placeholder="Escribe la descripción..."
-            onChange={handleCreateDesc}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="cantidad">Cantidad</Label>
-          <Input
-            type="number"
-            name="cantidad"
-            id="cantidadIn"
-            placeholder="Escribe la cantidad..."
-            onChange={handleCreateQuant}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="ubicacion">Ubicación</Label>
-          <Input
-            type="text"
-            name="ubicacion"
-            id="ubicacionIn"
-            placeholder="Escribe la ubicación..."
-            onChange={handleCreateLocation}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="images">Imágenes</Label>
-          <Input
-            type="file"
-            name="images"
-            id="imagesIn"
-            onChange={handleCreateImages}
-            multiple
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for="datasheet">Datasheet</Label>
-          <Input
-            type="file"
-            name="datasheet"
-            id="datasheetIn"
-            onChange={handleCreateDatasheet}
-            multiple
-          />
-        </FormGroup>
+        <div className="d-flex justify-content-around">
+          <div className="width40">
+            <FormGroup>
+              <Label for="nombre">Nombre</Label>
+              <Input
+                type="text"
+                name="nombre"
+                id="nombreIn"
+                placeholder="Escribe el nombre..."
+                onChange={handleCreateName}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="descripcion">Descripción</Label>
+              <Input
+                type="text"
+                name="descripcion"
+                id="descripcionIn"
+                placeholder="Escribe la descripción..."
+                onChange={handleCreateDesc}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="cantidad">Cantidad</Label>
+              <Input
+                type="number"
+                name="cantidad"
+                id="cantidadIn"
+                placeholder="Escribe la cantidad..."
+                onChange={handleCreateQuant}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="ubicacion">Ubicación</Label>
+              <Input
+                type="text"
+                name="ubicacion"
+                id="ubicacionIn"
+                placeholder="Escribe la ubicación..."
+                onChange={handleCreateLocation}
+              />
+            </FormGroup>
+          </div>
+          <div>
+            <FormGroup>
+              <Label for="images">Imágenes</Label>
+              <Input
+                type="file"
+                name="images"
+                id="imagesIn"
+                onChange={handleCreateImages}
+                multiple
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="datasheet">Datasheet</Label>
+              <Input
+                type="file"
+                name="datasheet"
+                id="datasheetIn"
+                onChange={handleCreateDatasheet}
+                multiple
+              />
+            </FormGroup>
+          </div>
+        </div>
         <Spinner
           color="primary"
           style={{ marginLeft: "15rem" }}
