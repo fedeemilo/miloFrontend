@@ -236,7 +236,6 @@ function SpareParts() {
           </thead>
 
           <tbody>
-             {!repuestos && <Spinner color="dark" size="lg" />}
             {repuestos.map((rep, i) => (
               <tr key={rep._id}>
                 <th scope="row">{i + 1}</th>
@@ -288,12 +287,18 @@ function SpareParts() {
                   </a>
                 </td>
               </tr>
-            ))}
+            )) || (
+              <tr>
+                {[...Array(8).keys()].map(n => (
+                  <td>
+                    <Spinner color="light" size="lg" />
+                  </td>
+                ))}
+              </tr>
+            )}
           </tbody>
         </Table>
       </div>
-
-      
 
       {/* modal for edition */}
       <div>
