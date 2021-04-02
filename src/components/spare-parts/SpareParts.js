@@ -7,6 +7,7 @@ import {
   Modal,
   ModalBody,
   ModalHeader,
+  Spinner,
   Table
 } from "reactstrap";
 
@@ -291,6 +292,8 @@ function SpareParts() {
         </Table>
       </div>
 
+      {!repuestos && <Spinner color="dark" size="lg" />}
+
       {/* modal for edition */}
 
       <div>
@@ -314,7 +317,9 @@ function SpareParts() {
           <h4 className="fweight800 text-center pt-3">
             ¿Deseas eliminar este componente?
           </h4>
-
+          <div className="text-center">
+            {repuesto && repuesto.nombre}
+          </div>
           <ModalBody className="d-flex justify-content-center">
             <Button
               color="primary"
