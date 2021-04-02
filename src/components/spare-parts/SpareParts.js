@@ -236,6 +236,7 @@ function SpareParts() {
           </thead>
 
           <tbody>
+             {!repuestos && <Spinner color="dark" size="lg" />}
             {repuestos.map((rep, i) => (
               <tr key={rep._id}>
                 <th scope="row">{i + 1}</th>
@@ -292,10 +293,9 @@ function SpareParts() {
         </Table>
       </div>
 
-      {!repuestos && <Spinner color="dark" size="lg" />}
+      
 
       {/* modal for edition */}
-
       <div>
         <Modal size="lg" isOpen={modalEdit} toggleEdit={toggleEdit}>
           <h3 className="mx-auto pt-3">Editar Repuesto|Componente</h3>
