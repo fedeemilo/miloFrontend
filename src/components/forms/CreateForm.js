@@ -99,6 +99,9 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
 
     toggleCreate();
     setCreateAlert(true);
+    setTimeout(() => {
+      setCreateAlert(false);
+    }, 5000);
   };
 
   return (

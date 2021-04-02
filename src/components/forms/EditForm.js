@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import { __db__ } from "../../constants";
 import CancelIcon from "../utils/CancelIcon";
+import ImageBox from "../utils/ImageBox";
 
 function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const [name, setName] = useState("");
@@ -20,7 +21,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const [datasheet, setDatasheet] = useState([]);
   const [loading, setLoading] = useState(false);
   const [cancelDS, setCancelDS] = useState(false);
-  const [cancelImgs, setCancelImgs] = useState(false);
+  const [arrCancelImgs, setArrCancelImgs] = useState([]);
 
   const handleEditName = e => {
     setName(e.target.value);
@@ -73,7 +74,8 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       nombre: name,
       descripcion: desc,
       cantidad: quant,
-      ubicacion: loc
+      ubicacion: loc,
+      deleteImages: arrCancelImgs
     };
 
     for (let key in body) {
@@ -81,15 +83,12 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     }
 
     images.forEach(img => {
-      fData.append("images", img);
+      fData.append("images", JSON.stringify(img));
     });
 
     datasheet.forEach(sheet => {
-      fData.append("datasheet", sheet);
+      fData.append("datasheet", JSON.stringify(sheet));
     });
-
-    console.log(images);
-    console.log(datasheet);
 
     try {
       setLoading(true);
@@ -115,6 +114,9 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
 
     toggleEdit();
     setEditAlert(true);
+    setTimeout(() => {
+      setEditAlert(false);
+    }, 5000);
   };
 
   useEffect(() => {
@@ -127,6 +129,8 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       setDatasheet(spare.datasheet);
     }
   }, [spare]);
+
+  console.log(arrCancelImgs);
 
   return (
     <div>
@@ -171,56 +175,48 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
             onChange={handleEditLocation}
           />
         </FormGroup>
-        {images.length > 0 && !cancelImgs ? (
-          <p className="d-flex align-items-center">
-            <strong>
-              {`${images.length} ${
-                images.length > 1 ? "archivos" : "archivo"
-              } de ${images.length > 1 ? "imágenes" : "imágen"}`}
-            </strong>
-            <CancelIcon
-              cancel="images"
-              cancelImgs={cancelImgs}
-              setCancelImgs={setCancelImgs}
-            />
+
+        <div className="d-flex flex-column">
+          <p
+            className={`font-sm ${images.length > 0 ? "" : "d-none"}`}
+          >
+            *Selecciona las <strong>imágenes</strong> que deseas
+            borrar
           </p>
-        ) : (
-          <FormGroup>
-            <Label for="images">Imágenes</Label>
-            <Input
-              type="file"
-              name="images"
-              id="imagesIn"
-              onChange={handleCreateImages}
-              multiple
-            />
-          </FormGroup>
-        )}
-        {datasheet.length > 0 && !cancelDS ? (
-          <p className="d-flex align-items-center">
-            <strong>
-              {`${datasheet.length} ${
-                datasheet.length > 1 ? "archivos" : "archivo"
-              } datasheet`}
-            </strong>
-            <CancelIcon
-              cancel="datasheet"
-              cancelDS={cancelDS}
-              setCancelDS={setCancelDS}
-            />
-          </p>
-        ) : (
-          <FormGroup>
-            <Label for="datasheet">Datasheet</Label>
-            <Input
-              type="file"
-              name="datasheet"
-              id="datasheetIn"
-              onChange={handleCreateDatasheet}
-              multiple
-            />
-          </FormGroup>
-        )}
+          <div className="d-flex">
+            {images.length > 0 &&
+              images.map(img => (
+                <ImageBox
+                  img={img}
+                  arrCancelImgs={arrCancelImgs}
+                  setArrCancelImgs={setArrCancelImgs}
+                />
+              ))}
+          </div>
+        </div>
+
+        <FormGroup className="mt-3">
+          <Label for="images">Imágenes</Label>
+          <Input
+            type="file"
+            name="images"
+            id="imagesIn"
+            onChange={handleCreateImages}
+            multiple
+          />
+        </FormGroup>
+
+        <FormGroup>
+          <Label for="datasheet">Datasheet</Label>
+          <Input
+            type="file"
+            name="datasheet"
+            id="datasheetIn"
+            onChange={handleCreateDatasheet}
+            multiple
+          />
+        </FormGroup>
+
         <Spinner
           color="primary"
           style={{ marginLeft: "15rem" }}

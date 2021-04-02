@@ -1,42 +1,41 @@
 import React, { useState } from "react";
 import { Form, FormGroup, Input, Label } from "reactstrap";
+import SearchIcon from "../utils/SearchIcon";
 
 function SpareForm({ repuestos, setRepuestos, setSearchValSpare }) {
   const [filter, setFilter] = useState("");
-
 
   const filterSearch = (searchVal, filter) => {
     let auxRepuestos = [].concat(repuestos);
     let filterRepuestos = [];
 
-
-    filterRepuestos = auxRepuestos.filter((rep) =>
+    filterRepuestos = auxRepuestos.filter(rep =>
       rep[filter].toLowerCase().includes(searchVal.toLowerCase())
     );
     setRepuestos(filterRepuestos);
-  }
+  };
 
-  const handleSearch = (e) => {
+  const handleSearch = e => {
     let searchVal = e.target.value;
 
     setSearchValSpare(true);
 
     if (searchVal.length > 0) {
       if (filter === "Nombre") {
-        filterSearch(searchVal, "nombre")
+        filterSearch(searchVal, "nombre");
       } else {
-        filterSearch(searchVal, "ubicacion")
+        filterSearch(searchVal, "ubicacion");
       }
     } else {
       setSearchValSpare(false);
     }
   };
 
-  const handleNameFilter = (e) => {
+  const handleNameFilter = e => {
     setFilter(e.target.value);
   };
 
-  const handleDescFilter = (e) => {
+  const handleDescFilter = e => {
     setFilter(e.target.value);
   };
 
@@ -46,10 +45,10 @@ function SpareForm({ repuestos, setRepuestos, setSearchValSpare }) {
         <FormGroup>
           <div className="d-flex flex-column mt-3">
             <div className="m-1">
-              <Label for="exampleEmail">
-                Buscar repuesto/componente
-              </Label>
+              <SearchIcon />
               <Input
+                className="text-center"
+                style={{ height: "3rem", fontSize: "1.4rem" }}
                 type="text"
                 name="componente"
                 id="componenteIn"
@@ -62,11 +61,12 @@ function SpareForm({ repuestos, setRepuestos, setSearchValSpare }) {
                 }
               />
             </div>
-            <div className="m-1 d-flex">
+            <div className="m-1 d-flex justify-content-center">
               <div className="ml-1">
                 <FormGroup check>
-                  <Label check>
+                  <Label check style={{ fontSize: "1.5rem" }}>
                     <Input
+                      style={{ width: "1.2rem", height: "1rem" }}
                       onChange={handleNameFilter}
                       type="radio"
                       name="radio1"
@@ -78,8 +78,9 @@ function SpareForm({ repuestos, setRepuestos, setSearchValSpare }) {
               </div>
               <div className="ml-3">
                 <FormGroup check>
-                  <Label check>
+                  <Label check style={{ fontSize: "1.5rem" }}>
                     <Input
+                      style={{ width: "1.2rem", height: "1rem" }}
                       onChange={handleDescFilter}
                       type="radio"
                       name="radio1"

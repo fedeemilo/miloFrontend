@@ -97,20 +97,26 @@ function SpareParts() {
     onEditDismiss();
   };
 
-  const handleDelete = e => {
+  const handleDelete = async e => {
     e.preventDefault();
 
     if (repuesto) {
       let id = repuesto._id;
 
-      axios
-        .delete(
-          `https://milo-soft-backend.herokuapp.com/repuestos/${id}`
-        )
-        .then(() => setDeleteAlert(true))
-        .catch(err => console.log(err));
+      try {
+        let response = await axios.delete(
+          `${__db__}/repuestos/${id}`
+        );
+
+        setDeleteAlert(true);
+      } catch (error) {
+        console.log(error);
+      }
 
       toggleDelete();
+      setTimeout(() => {
+        setDeleteAlert(false);
+      }, 5000);
       setRepuestos(repuestos =>
         repuestos.filter(rep => rep._id !== id)
       );
@@ -143,16 +149,18 @@ function SpareParts() {
       <NavBar />
 
       {/* header */}
-      <div className="components__header d-flex justify-content-between">
-        <h3 className="ml-4 text-uppercase">Repuestos/Componentes</h3>
+      <div className="components__header d-flex justify-content-center">
+        <h3 className="ml-4 text-uppercase text-center">
+          Repuestos|Componentes
+        </h3>
         <a href="#" onClick={toggleCreate} className="mr-3">
           <PlusIcon />
         </a>
       </div>
 
       {/* form */}
-      <div className="components__form d-flex justify-content-between">
-        <div className="col-lg-6 ml-4">
+      <div className="components__form d-flex flex-column justify-content-center align-items-center">
+        <div className="col-lg-6 ml-4 text-center">
           <SpareForm
             repuestos={repuestos}
             setRepuestos={setRepuestos}
@@ -160,7 +168,7 @@ function SpareParts() {
           />
         </div>
         {/* alert */}
-        <div>
+        <div className="d-flex">
           {/* success alert */}
           <Alert
             color="success"
@@ -168,18 +176,26 @@ function SpareParts() {
             toggle={onCreateDismiss}
             fade={true}
             className="mt-5 mr-3"
-            style={{ position: "relative", top: "5rem" }}
+            style={{
+              position: "absolute",
+              top: "15rem",
+              left: "1rem"
+            }}
           >
             Componente creado con éxito!
           </Alert>
 
           <Alert
             color="success"
+            style={{
+              position: "absolute",
+              top: "15rem",
+              left: "1rem"
+            }}
             isOpen={editAlert}
             toggle={onEditDismiss}
             fade={true}
             className="mt-5 mr-3"
-            style={{ position: "relative", top: "5rem" }}
           >
             Componente editado con éxito!
           </Alert>
@@ -191,7 +207,11 @@ function SpareParts() {
             toggle={onDeleteDismiss}
             fade={true}
             className="mt-5 mr-3"
-            style={{ position: "relative", top: "5rem" }}
+            style={{
+              position: "absolute",
+              top: "15rem",
+              left: "1rem"
+            }}
           >
             Componente eliminado con éxito!
           </Alert>
@@ -274,9 +294,9 @@ function SpareParts() {
       {/* modal for edition */}
       <div>
         <Modal isOpen={modalEdit} toggleEdit={toggleEdit}>
-          <ModalHeader toggleEdit={toggleEdit}>
-            Editar Repuesto/Componente
-          </ModalHeader>
+          <h3 className='mx-auto pt-3'>
+            Editar Repuesto|Componente
+          </h3>
           <ModalBody>
             <EditForm
               spare={spareEdit}
