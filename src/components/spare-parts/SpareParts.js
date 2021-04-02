@@ -6,9 +6,9 @@ import {
   Button,
   Modal,
   ModalBody,
-  ModalHeader,
   Spinner,
-  Table
+  Table,
+  Tooltip
 } from "reactstrap";
 
 import Carousel from "react-bootstrap/Carousel";
@@ -37,7 +37,10 @@ function SpareParts() {
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [createAlert, setCreateAlert] = useState(false);
   const [searchValSpare, setSearchValSpare] = useState(false);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
   const [index, setIndex] = useState(0);
+
+  const toggle = () => setTooltipOpen(!tooltipOpen);
 
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
@@ -150,13 +153,27 @@ function SpareParts() {
       <NavBar />
 
       {/* header */}
-      <div className="components__header d-flex justify-content-center">
+      <div className="mt-5 components__header d-flex justify-content-center">
         <h3 className="ml-4 text-uppercase text-center">
-          Repuestos|Componentes
+          Repuestos | Componentes
         </h3>
-        <a href="#" onClick={toggleCreate} className="mr-3">
+        <a
+          id="TooltipPlusIcon"
+          href="#"
+          onClick={toggleCreate}
+          className="mr-3 position-absolute"
+          style={{ left: ".5rem" }}
+        >
           <PlusIcon />
         </a>
+        <Tooltip
+          placement="right"
+          isOpen={tooltipOpen}
+          target="TooltipPlusIcon"
+          toggle={toggle}
+        >
+          Crear nuevo
+        </Tooltip>
       </div>
 
       {/* form */}
@@ -220,7 +237,7 @@ function SpareParts() {
       </div>
 
       {/* table of spare-parts */}
-      <div className="components__table mt-5 mx-auto p-2">
+      <div className="components__table mt-3 mx-auto p-2">
         <Table dark bordered hover className="text-center">
           <thead>
             <tr>
@@ -303,7 +320,14 @@ function SpareParts() {
       {/* modal for edition */}
       <div>
         <Modal size="lg" isOpen={modalEdit} toggleEdit={toggleEdit}>
-          <h3 className="mx-auto pt-3">Editar Repuesto|Componente</h3>
+          <div className="d-flex justify-content-center">
+            <h3 className="mx-auto pt-3">
+              Editar Repuesto | Componente
+            </h3>
+          </div>
+
+          <hr className="mx-2 mt-1" />
+
           <ModalBody>
             <EditForm
               spare={spareEdit}
@@ -347,10 +371,13 @@ function SpareParts() {
           isOpen={modalCreate}
           toggleCreate={toggleCreate}
         >
-          <ModalHeader toggleCreate={toggleCreate}>
-            Crear Nuevo Repuesto/Componente
-          </ModalHeader>
+          <div className="d-flex justify-content-center">
+            <h3 className="pt-3 fweight800">
+              Crear Nuevo Repuesto | Componente
+            </h3>
+          </div>
 
+          <hr className="mx-2 mt-1" />
           <ModalBody>
             <CreateForm
               toggleCreate={toggleCreate}
@@ -364,13 +391,15 @@ function SpareParts() {
 
       {/* modal for pictures */}
       <div>
-        <Modal isOpen={modalImages} toggle={toggleImages}>
-          <ModalHeader toggle={toggleImages}>
-            Imágenes del Repuesto/Componente
-          </ModalHeader>
+        <Modal size="lg" isOpen={modalImages} toggle={toggleImages}>
+        <div className="d-flex justify-content-center">
+            <h3 className="pt-3 fweight800">
+              Imágenes del Repuesto | Componente
+            </h3>
+          </div>
           <ModalBody className="mx-auto">
             {repImages && (
-              <Carousel activeIndex={index} onSelect={handleSelect}>
+              <Carousel interval={null} activeIndex={index} onSelect={handleSelect}>
                 {slides}
               </Carousel>
             )}

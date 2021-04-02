@@ -135,8 +135,8 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   return (
     <div>
       <Form onSubmit={handleEditSubmit}>
-        <div className='d-flex justify-content-around'>
-          <div className='width40'>
+        <div className="d-flex justify-content-around">
+          <div className="width40">
             <FormGroup>
               <Label for="nombre">Nombre</Label>
               <Input
@@ -186,7 +186,12 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                 }`}
               >
                 *Selecciona las <strong>imágenes</strong> que deseas
-                borrar
+                borrar{" "}
+                {`${
+                  arrCancelImgs.length > 0
+                    ? `(${arrCancelImgs.length})`
+                    : ""
+                }`}
               </p>
               <div className="d-flex">
                 {images.length > 0 &&

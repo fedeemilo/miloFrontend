@@ -13,13 +13,16 @@ function NavBar() {
   const toggle = () => setIsOpen(!isOpen);
   return (
     <div>
-      <Navbar color="dark" dark expand="md">
-        <NavbarBrand href="/">Milo Soft</NavbarBrand>
+      <Navbar
+        className="d-flex justify-content-center"
+        color="dark"
+        dark
+        expand="md"
+      >
+        <NavbarBrand href="/" style={{ fontSize: "1.9rem" }}>
+          Milo Soft
+        </NavbarBrand>
         <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
-          </Nav>
-        </Collapse>
       </Navbar>
     </div>
   );

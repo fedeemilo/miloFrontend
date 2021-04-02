@@ -59,10 +59,8 @@
   height: 2.5rem;
 
   &:not(:first-child) {
-    
     margin-left: 1rem;
   }
-
 
   &:hover {
     cursor: pointer;
@@ -81,6 +79,12 @@
 
 .font-sm {
   color: red;
-  font-size: .8rem;
-  margin-bottom: -.1rem;
+  font-size: 0.8rem;
+  margin-bottom: -0.1rem;
+}
+
+.radio-filter {
+  &:hover {
+    cursor: pointer;
+  }
 }
