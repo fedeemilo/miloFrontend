@@ -9,7 +9,6 @@ import {
   Spinner
 } from "reactstrap";
 import { __db__ } from "../../constants";
-import CancelIcon from "../utils/CancelIcon";
 import ImageBox from "../utils/ImageBox";
 
 function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
@@ -22,6 +21,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const [loading, setLoading] = useState(false);
   const [cancelDS, setCancelDS] = useState(false);
   const [arrCancelImgs, setArrCancelImgs] = useState([]);
+  const [hideDelImgs, setHideDelImgs] = useState(false)
 
   const handleEditName = e => {
     setName(e.target.value);
@@ -87,7 +87,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     });
 
     datasheet.forEach(sheet => {
-      fData.append("datasheet", JSON.stringify(sheet));
+      fData.append("datasheet", sheet);
     });
 
     try {
@@ -106,6 +106,11 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
             return rep;
           })
         );
+    setEditAlert(true);
+    setTimeout(() => {
+      setEditAlert(false);
+    }, 5000);
+
       }
     } catch (error) {
       console.log(error);
@@ -113,10 +118,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     }
 
     toggleEdit();
-    setEditAlert(true);
-    setTimeout(() => {
-      setEditAlert(false);
-    }, 5000);
+    
   };
 
   useEffect(() => {
@@ -128,12 +130,16 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       setImages(spare.images);
       setDatasheet(spare.datasheet);
     }
+
+    if (spare.images.length > 0) {
+      setHideDelImgs(true)
+
+    }
+
   }, [spare]);
 
-  console.log(arrCancelImgs);
-
   return (
-    <div>
+    <div className='edit-form'>
       <Form onSubmit={handleEditSubmit}>
         <div className="d-flex justify-content-around">
           <div className="width40">
@@ -182,19 +188,19 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
             <div className="d-flex flex-column">
               <p
                 className={`font-sm mb-1 ${
-                  images.length > 0 ? "" : "d-none"
+                  images.length > 0 && hideDelImgs ? "" : "d-none"
                 }`}
               >
                 *Selecciona las <strong>imágenes</strong> que deseas
                 borrar{" "}
                 {`${
-                  arrCancelImgs.length > 0
+                  arrCancelImgs.length > 0 && hideDelImgs
                     ? `(${arrCancelImgs.length})`
                     : ""
                 }`}
               </p>
               <div className="d-flex">
-                {images.length > 0 &&
+                {images.length > 0 && hideDelImgs &&
                   images.map(img => (
                     <ImageBox
                       img={img}

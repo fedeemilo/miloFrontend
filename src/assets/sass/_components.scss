@@ -44,6 +44,14 @@
   }
 }
 
+.edit-form {
+  input[type="text"],
+  input[type="number"] {
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
 .spare-img {
   @include flexCenter();
   width: 100%;

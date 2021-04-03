@@ -109,6 +109,12 @@ body {
   font-size: 1.5rem;
 }
 
+.edit-form input[type="text"],
+.edit-form input[type="number"] {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 .spare-img {
   display: -webkit-box;
   display: -ms-flexbox;

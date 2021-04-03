@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, FormGroup, Input, Label } from "reactstrap";
 import SearchIcon from "../utils/SearchIcon";
 
-function SpareForm({ repuestos, setRepuestos, setSearchValSpare }) {
+function SpareForm({
+  setRepuestos,
+  setSearchValSpare,
+  cloneRepuestos
+}) {
   const [filter, setFilter] = useState("");
 
   const filterSearch = (searchVal, filter) => {
-    let auxRepuestos = [].concat(repuestos);
+    let arrAuxRepuestos = [].concat(cloneRepuestos);
     let filterRepuestos = [];
 
-    filterRepuestos = auxRepuestos.filter(rep =>
+    filterRepuestos = arrAuxRepuestos.filter(rep =>
       rep[filter].toLowerCase().includes(searchVal.toLowerCase())
     );
     setRepuestos(filterRepuestos);
+    console.log(filterRepuestos);
   };
 
   const handleSearch = e => {
@@ -66,7 +71,7 @@ function SpareForm({ repuestos, setRepuestos, setSearchValSpare }) {
                 <FormGroup check>
                   <Label check style={{ fontSize: "1.5rem" }}>
                     <Input
-                    className='radio-filter'
+                      className="radio-filter"
                       style={{ width: "1.2rem", height: "1rem" }}
                       onChange={handleNameFilter}
                       type="radio"
@@ -81,7 +86,7 @@ function SpareForm({ repuestos, setRepuestos, setSearchValSpare }) {
                 <FormGroup check>
                   <Label check style={{ fontSize: "1.5rem" }}>
                     <Input
-                    className='radio-filter'
+                      className="radio-filter"
                       style={{ width: "1.2rem", height: "1rem" }}
                       onChange={handleDescFilter}
                       type="radio"

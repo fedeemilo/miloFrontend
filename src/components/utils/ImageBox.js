@@ -5,22 +5,24 @@ const ImageBox = ({ img, arrCancelImgs, setArrCancelImgs }) => {
 
   useEffect(() => {
     if (boxSelected) {
-        console.log(img)
+      console.log(img);
       setArrCancelImgs(arrCancelImgs =>
         arrCancelImgs.concat(img.public_id)
       );
     } else {
       setArrCancelImgs(arrCancelImgs =>
-        arrCancelImgs.filter(
-          public_id => public_id !== img.public_id
-        )
+        arrCancelImgs.filter(public_id => public_id !== img.public_id)
       );
     }
   }, [boxSelected, img, setArrCancelImgs]);
 
+  console.log(img);
+
   return (
     <div
-      className={`image-box border-black-2 ${boxSelected ? "box-selected" : ""}`}
+      className={`image-box border-black-2 ${
+        boxSelected ? "box-selected" : ""
+      }`}
       onClick={() => setBoxSelected(!boxSelected)}
     >
       <img src={img.url} alt={`img-${img.public_id}`} />

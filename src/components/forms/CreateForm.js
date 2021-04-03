@@ -91,6 +91,10 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
       if (repuesto) {
         setLoading(false);
         setRepuestos(repuestos => [...repuestos, repuesto]);
+        setCreateAlert(true);
+        setTimeout(() => {
+          setCreateAlert(false);
+        }, 5000);
       }
     } catch (error) {
       console.log(error);
@@ -98,10 +102,6 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
     }
 
     toggleCreate();
-    setCreateAlert(true);
-    setTimeout(() => {
-      setCreateAlert(false);
-    }, 5000);
   };
 
   return (

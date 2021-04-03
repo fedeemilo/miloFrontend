@@ -39,6 +39,7 @@ function SpareParts() {
   const [searchValSpare, setSearchValSpare] = useState(false);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [index, setIndex] = useState(0);
+  const [cloneRepuestos, setCloneRepuestos] = useState([]);
 
   const toggle = () => setTooltipOpen(!tooltipOpen);
 
@@ -51,7 +52,9 @@ function SpareParts() {
       const fetchRepuestos = async () => {
         try {
           let response = await axios.get(`${__db__}/repuestos`);
+          let cloneResponse = [...response.data];
           setRepuestos(response.data);
+          setCloneRepuestos(cloneResponse);
         } catch (error) {
           console.log(error);
         }
@@ -148,6 +151,8 @@ function SpareParts() {
 
   const onDeleteDismiss = () => setDeleteAlert(false);
 
+  console.log(cloneRepuestos);
+
   return (
     <div className="components">
       <NavBar />
@@ -180,9 +185,9 @@ function SpareParts() {
       <div className="components__form d-flex flex-column justify-content-center align-items-center">
         <div className="col-lg-6 ml-4 text-center">
           <SpareForm
-            repuestos={repuestos}
             setRepuestos={setRepuestos}
             setSearchValSpare={setSearchValSpare}
+            cloneRepuestos={cloneRepuestos}
           />
         </div>
         {/* alert */}
@@ -237,7 +242,7 @@ function SpareParts() {
       </div>
 
       {/* table of spare-parts */}
-      <div className="components__table mt-3 mx-auto p-2">
+      <div className="components__table mt-4 mx-auto p-2">
         <Table dark bordered hover className="text-center">
           <thead>
             <tr>
@@ -259,7 +264,7 @@ function SpareParts() {
                 <td>{rep.nombre.toUpperCase()}</td>
                 <td>
                   {rep.descripcion
-                    ? rep.descripcion
+                    ? rep.descripcion.toUpperCase()
                     : "(Sin Descripción)"}
                 </td>
                 <td>{rep.cantidad}</td>
@@ -392,14 +397,18 @@ function SpareParts() {
       {/* modal for pictures */}
       <div>
         <Modal size="lg" isOpen={modalImages} toggle={toggleImages}>
-        <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center">
             <h3 className="pt-3 fweight800">
               Imágenes del Repuesto | Componente
             </h3>
           </div>
           <ModalBody className="mx-auto">
             {repImages && (
-              <Carousel interval={null} activeIndex={index} onSelect={handleSelect}>
+              <Carousel
+                interval={null}
+                activeIndex={index}
+                onSelect={handleSelect}
+              >
                 {slides}
               </Carousel>
             )}
