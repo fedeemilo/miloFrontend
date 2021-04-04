@@ -17,7 +17,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const [quant, setQuant] = useState(0);
   const [loc, setLoc] = useState("");
   const [images, setImages] = useState([]);
-  const [datasheet, setDatasheet] = useState([]);
+  const [datasheet, setDatasheet] = useState(null);
   const [loading, setLoading] = useState(false);
   const [cancelDS, setCancelDS] = useState(false);
   const [arrCancelImgs, setArrCancelImgs] = useState([]);
@@ -42,6 +42,8 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const handleCreateDatasheet = e => {
     let newDatasheet = e.target.files;
 
+    console.log(newDatasheet);
+
     setDatasheet(newDatasheet);
   };
 
@@ -63,8 +65,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     let id = spare._id;
     let fData = new FormData();
 
-    console.log(arrCancelImgs)
-
     let body = {
       nombre: name,
       descripcion: desc,
@@ -78,11 +78,13 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     }
 
     images.forEach(img => {
+      console.log(img)
       fData.append("images", img);
     });
 
     if (datasheet) {
-      fData.append("datasheet", JSON.stringify(datasheet));
+      console.log(datasheet[0]);
+      fData.append("datasheet", datasheet[0]);
     }
 
     try {
@@ -90,8 +92,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       let {
         data: { repuesto }
       } = await axios.put(`${__db__}/repuestos/${id}`, fData);
-
-      console.log(repuesto)
 
       if (repuesto) {
         setLoading(false);

@@ -151,7 +151,8 @@ function SpareParts() {
 
   const onDeleteDismiss = () => setDeleteAlert(false);
 
- 
+  console.log(repuestos);
+
   return (
     <div className="components">
       <NavBar />
@@ -282,6 +283,7 @@ function SpareParts() {
                     <a
                       href={rep.datasheet[0].url}
                       download={rep.nombre}
+                      target="__blank"
                     >
                       Descargar
                     </a>
