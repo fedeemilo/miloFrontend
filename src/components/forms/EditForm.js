@@ -8,6 +8,7 @@ import {
   Label,
   Spinner
 } from "reactstrap";
+import ButtonRB from "react-bootstrap/Button";
 import { __db__ } from "../../constants";
 import ImageBox from "../utils/ImageBox";
 
@@ -17,12 +18,13 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const [quant, setQuant] = useState(0);
   const [loc, setLoc] = useState("");
   const [images, setImages] = useState([]);
-  const [auxImages, setAuxImages] = useState([])
+  const [auxImages, setAuxImages] = useState([]);
   const [datasheet, setDatasheet] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [cancelDS, setCancelDS] = useState(false);
   const [arrCancelImgs, setArrCancelImgs] = useState([]);
+  const [arrCancelDS, setArrayCancelDS] = useState([]);
   const [hideDelImgs, setHideDelImgs] = useState(false);
+  const [hideDelDS, setHideDelDS] = useState(false);
 
   const handleEditName = e => {
     setName(e.target.value);
@@ -43,7 +45,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const handleCreateDatasheet = e => {
     let newDatasheet = e.target.files;
 
-    console.log(newDatasheet);
 
     setDatasheet(newDatasheet);
   };
@@ -56,7 +57,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       imgsArray.push(img);
     });
 
-    console.log(imgsArray);
 
     setImages(imgsArray);
   };
@@ -71,7 +71,8 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       descripcion: desc,
       cantidad: quant,
       ubicacion: loc,
-      deleteImages: arrCancelImgs
+      deleteImages: arrCancelImgs,
+      deleteDatasheet: arrCancelDS
     };
 
     for (let key in body) {
@@ -79,12 +80,10 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     }
 
     images.forEach(img => {
-      console.log(img)
       fData.append("images", img);
     });
 
     if (datasheet) {
-      console.log(datasheet[0]);
       fData.append("datasheet", datasheet[0]);
     }
 
@@ -117,6 +116,13 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     toggleEdit();
   };
 
+  const handleDelDS = () => {
+    setHideDelDS(true);
+
+    let publicId = datasheet[0].public_id;
+    setArrayCancelDS(arrCancelDS => arrCancelDS.concat(publicId));
+  };
+
   useEffect(() => {
     if (spare) {
       setName(spare.nombre);
@@ -124,7 +130,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       setQuant(spare.cantidad);
       setLoc(spare.ubicacion);
       setImages(spare.images);
-      setAuxImages(spare.images)
+      setAuxImages(spare.images);
       setDatasheet(spare.datasheet);
     }
 
@@ -216,22 +222,34 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                 multiple
               />
             </FormGroup>
-            <FormGroup>
-              <Label for="datasheet">Datasheet</Label>
-              <Input
-                type="file"
-                name="datasheet"
-                id="datasheetIn"
-                onChange={handleCreateDatasheet}
-                multiple
-              />
-            </FormGroup>
+            <div className="d-flex flex-column">
+              {datasheet && !hideDelDS ? (
+                <ButtonRB
+                  variant="danger"
+                  className="mt-2"
+                  onClick={handleDelDS}
+                >
+                  Eliminar Datasheet de <strong>{name}</strong>
+                </ButtonRB>
+              ) : (
+                <FormGroup>
+                  <Label for="datasheet">Datasheet</Label>
+                  <Input
+                    type="file"
+                    name="datasheet"
+                    id="datasheetIn"
+                    onChange={handleCreateDatasheet}
+                    multiple
+                  />
+                </FormGroup>
+              )}
+            </div>
           </div>
         </div>
 
         <Spinner
           color="primary"
-          style={{ marginLeft: "15rem" }}
+          style={{ marginLeft: "33rem" }}
           className={`${!loading ? "d-none" : ""}`}
         />
         <Button

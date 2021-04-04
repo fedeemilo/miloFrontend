@@ -151,7 +151,6 @@ function SpareParts() {
 
   const onDeleteDismiss = () => setDeleteAlert(false);
 
-  console.log(repuestos);
 
   return (
     <div className="components">

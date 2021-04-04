@@ -5,7 +5,6 @@ const ImageBox = ({ img, arrCancelImgs, setArrCancelImgs }) => {
 
   useEffect(() => {
     if (boxSelected) {
-      console.log(img);
       setArrCancelImgs(arrCancelImgs =>
         arrCancelImgs.concat(img.public_id)
       );
