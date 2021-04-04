@@ -272,7 +272,7 @@ function SpareParts() {
                 <td>
                   {rep.images.length > 0 ? (
                     <a href="#" onClick={e => handleImages(e, rep)}>
-                      Ver Imágenes
+                      Ver Imágenes {`(${rep.images.length})`}
                     </a>
                   ) : (
                     <p>(Sin imágenes)</p>
