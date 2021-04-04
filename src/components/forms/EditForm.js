@@ -45,7 +45,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const handleCreateDatasheet = e => {
     let newDatasheet = e.target.files;
 
-
     setDatasheet(newDatasheet);
   };
 
@@ -56,7 +55,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     Array.from(imgs).forEach(img => {
       imgsArray.push(img);
     });
-
 
     setImages(imgsArray);
   };
@@ -117,7 +115,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   };
 
   const handleDelDS = () => {
-    setHideDelDS(true);
+    
 
     let publicId = datasheet[0].public_id;
     setArrayCancelDS(arrCancelDS => arrCancelDS.concat(publicId));
@@ -137,6 +135,11 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     if (spare.images.length > 0) {
       setHideDelImgs(true);
     }
+
+    if (spare.datasheet.length > 0) {
+      setHideDelDS(true);
+    }
+
   }, [spare]);
 
   return (
@@ -223,13 +226,14 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
               />
             </FormGroup>
             <div className="d-flex flex-column">
-              {datasheet && !hideDelDS ? (
+              {hideDelDS ? (
                 <ButtonRB
                   variant="danger"
                   className="mt-2"
                   onClick={handleDelDS}
                 >
-                  Eliminar Datasheet de <strong>{name}</strong>
+                  Eliminar Datasheet de{" "}
+                  <strong>{name.toUpperCase()}</strong>
                 </ButtonRB>
               ) : (
                 <FormGroup>
