@@ -17,6 +17,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const [quant, setQuant] = useState(0);
   const [loc, setLoc] = useState("");
   const [images, setImages] = useState([]);
+  const [auxImages, setAuxImages] = useState([])
   const [datasheet, setDatasheet] = useState(null);
   const [loading, setLoading] = useState(false);
   const [cancelDS, setCancelDS] = useState(false);
@@ -123,6 +124,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       setQuant(spare.cantidad);
       setLoc(spare.ubicacion);
       setImages(spare.images);
+      setAuxImages(spare.images)
       setDatasheet(spare.datasheet);
     }
 
@@ -193,9 +195,9 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                 }`}
               </p>
               <div className="d-flex">
-                {images.length > 0 &&
+                {auxImages.length > 0 &&
                   hideDelImgs &&
-                  images.map(img => (
+                  auxImages.map(img => (
                     <ImageBox
                       img={img}
                       arrCancelImgs={arrCancelImgs}
