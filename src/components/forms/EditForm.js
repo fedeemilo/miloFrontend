@@ -21,7 +21,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   const [loading, setLoading] = useState(false);
   const [cancelDS, setCancelDS] = useState(false);
   const [arrCancelImgs, setArrCancelImgs] = useState([]);
-  const [hideDelImgs, setHideDelImgs] = useState(false)
+  const [hideDelImgs, setHideDelImgs] = useState(false);
 
   const handleEditName = e => {
     setName(e.target.value);
@@ -40,27 +40,20 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   };
 
   const handleCreateDatasheet = e => {
-    let datasheets = e.target.files;
-    let datasheetsArray = [];
+    let newDatasheet = e.target.files;
 
-    console.log(datasheets);
-
-    Array.from(datasheets).forEach(datasheet => {
-      datasheetsArray.push(datasheet);
-    });
-
-    setDatasheet(datasheetsArray);
+    setDatasheet(newDatasheet);
   };
 
   const handleCreateImages = e => {
     let imgs = e.target.files;
     let imgsArray = [];
 
-    console.log(imgs);
-
     Array.from(imgs).forEach(img => {
       imgsArray.push(img);
     });
+
+    console.log(imgsArray);
 
     setImages(imgsArray);
   };
@@ -69,6 +62,8 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     e.preventDefault();
     let id = spare._id;
     let fData = new FormData();
+
+    console.log(arrCancelImgs)
 
     let body = {
       nombre: name,
@@ -83,18 +78,20 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     }
 
     images.forEach(img => {
-      fData.append("images", JSON.stringify(img));
+      fData.append("images", img);
     });
 
-    datasheet.forEach(sheet => {
-      fData.append("datasheet", sheet);
-    });
+    if (datasheet) {
+      fData.append("datasheet", JSON.stringify(datasheet));
+    }
 
     try {
       setLoading(true);
       let {
         data: { repuesto }
       } = await axios.put(`${__db__}/repuestos/${id}`, fData);
+
+      console.log(repuesto)
 
       if (repuesto) {
         setLoading(false);
@@ -106,11 +103,10 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
             return rep;
           })
         );
-    setEditAlert(true);
-    setTimeout(() => {
-      setEditAlert(false);
-    }, 5000);
-
+        setEditAlert(true);
+        setTimeout(() => {
+          setEditAlert(false);
+        }, 5000);
       }
     } catch (error) {
       console.log(error);
@@ -118,7 +114,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     }
 
     toggleEdit();
-    
   };
 
   useEffect(() => {
@@ -132,14 +127,12 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     }
 
     if (spare.images.length > 0) {
-      setHideDelImgs(true)
-
+      setHideDelImgs(true);
     }
-
   }, [spare]);
 
   return (
-    <div className='edit-form'>
+    <div className="edit-form">
       <Form onSubmit={handleEditSubmit}>
         <div className="d-flex justify-content-around">
           <div className="width40">
@@ -200,7 +193,8 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                 }`}
               </p>
               <div className="d-flex">
-                {images.length > 0 && hideDelImgs &&
+                {images.length > 0 &&
+                  hideDelImgs &&
                   images.map(img => (
                     <ImageBox
                       img={img}

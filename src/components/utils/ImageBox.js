@@ -16,7 +16,6 @@ const ImageBox = ({ img, arrCancelImgs, setArrCancelImgs }) => {
     }
   }, [boxSelected, img, setArrCancelImgs]);
 
-  console.log(img);
 
   return (
     <div

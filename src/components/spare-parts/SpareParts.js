@@ -151,8 +151,7 @@ function SpareParts() {
 
   const onDeleteDismiss = () => setDeleteAlert(false);
 
-  console.log(cloneRepuestos);
-
+ 
   return (
     <div className="components">
       <NavBar />
@@ -243,7 +242,7 @@ function SpareParts() {
 
       {/* table of spare-parts */}
       <div className="components__table mt-4 mx-auto p-2">
-        <Table dark bordered hover className="text-center">
+        <Table dark bordered hover responsive className="text-center">
           <thead>
             <tr>
               <th>#</th>
@@ -279,7 +278,7 @@ function SpareParts() {
                   )}
                 </td>
                 <td>
-                  {rep.datasheet.length > 0 ? (
+                  {rep.datasheet && rep.datasheet.length > 0 ? (
                     <a
                       href={rep.datasheet[0].url}
                       download={rep.nombre}
