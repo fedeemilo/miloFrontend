@@ -132,11 +132,12 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       setDatasheet(spare.datasheet);
     }
 
-    if (spare.images.length > 0) {
+
+    if (spare.images && spare.images.length > 0) {
       setHideDelImgs(true);
     }
 
-    if (spare.datasheet.length > 0) {
+    if (spare.datasheet && spare.datasheet.length > 0) {
       setHideDelDS(true);
     }
 
