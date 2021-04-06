@@ -115,10 +115,9 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   };
 
   const handleDelDS = () => {
-    
-
     let publicId = datasheet[0].public_id;
     setArrayCancelDS(arrCancelDS => arrCancelDS.concat(publicId));
+    setHideDelDS(!hideDelDS);
   };
 
   useEffect(() => {
@@ -132,7 +131,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       setDatasheet(spare.datasheet);
     }
 
-
     if (spare.images && spare.images.length > 0) {
       setHideDelImgs(true);
     }
@@ -140,7 +138,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
     if (spare.datasheet && spare.datasheet.length > 0) {
       setHideDelDS(true);
     }
-
   }, [spare]);
 
   return (
