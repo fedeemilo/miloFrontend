@@ -29,17 +29,8 @@
       vertical-align: middle;
     }
 
-    .ion-edit {
-      .svg {
-        color: yellow;
-      }
-    }
-
-    .ion-delete {
-      ion-icon {
-        color: red;
-        font-size: 1.5rem;
-      }
+    .no-images {
+      @include flexCenter();
     }
   }
 }
@@ -50,6 +41,7 @@
     font-weight: bold;
     text-transform: uppercase;
   }
+  
 }
 
 .spare-img {
@@ -95,4 +87,7 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.clients {
 }

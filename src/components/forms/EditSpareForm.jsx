@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -11,53 +10,39 @@ import {
 import ButtonRB from "react-bootstrap/Button";
 import { __db__ } from "../../constants";
 import ImageBox from "../utils/ImageBox";
+import { editSpareAction } from "../../redux/spareDucks";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleSetFiles,
+  handleSetMultimedia,
+  handleSetValue
+} from "../utils/functions";
+import { alertSuccessOffAction } from "../../redux/globalDucks";
 
-function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
-  const [name, setName] = useState("");
-  const [desc, setDesc] = useState("");
-  const [quant, setQuant] = useState(0);
-  const [loc, setLoc] = useState("");
-  const [images, setImages] = useState([]);
-  const [auxImages, setAuxImages] = useState([]);
-  const [datasheet, setDatasheet] = useState(null);
-  const [loading, setLoading] = useState(false);
+const EditSpareForm = ({ spare, toggleEdit }) => {
+  let {
+    nombre,
+    descripcion,
+    cantidad,
+    ubicacion,
+    images: imgs,
+    datasheet: datash
+  } = spare;
+
+  const [name, setName] = useState(nombre);
+  const [desc, setDesc] = useState(descripcion);
+  const [quant, setQuant] = useState(cantidad);
+  const [loc, setLoc] = useState(ubicacion);
+  const [images, setImages] = useState(imgs);
+  const [auxImages] = useState(imgs);
+  const [datasheet, setDatasheet] = useState(datash);
   const [arrCancelImgs, setArrCancelImgs] = useState([]);
   const [arrCancelDS, setArrayCancelDS] = useState([]);
   const [hideDelImgs, setHideDelImgs] = useState(false);
   const [hideDelDS, setHideDelDS] = useState(false);
 
-  const handleEditName = e => {
-    setName(e.target.value);
-  };
-
-  const handleEditDesc = e => {
-    setDesc(e.target.value);
-  };
-
-  const handleEditQuant = e => {
-    setQuant(e.target.value);
-  };
-
-  const handleEditLocation = e => {
-    setLoc(e.target.value);
-  };
-
-  const handleCreateDatasheet = e => {
-    let newDatasheet = e.target.files;
-
-    setDatasheet(newDatasheet);
-  };
-
-  const handleCreateImages = e => {
-    let imgs = e.target.files;
-    let imgsArray = [];
-
-    Array.from(imgs).forEach(img => {
-      imgsArray.push(img);
-    });
-
-    setImages(imgsArray);
-  };
+  const dispatch = useDispatch();
+  const spinnerOn = useSelector(store => store.global.spinnerOn);
 
   const handleEditSubmit = async e => {
     e.preventDefault();
@@ -85,33 +70,11 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       fData.append("datasheet", datasheet[0]);
     }
 
-    try {
-      setLoading(true);
-      let {
-        data: { repuesto }
-      } = await axios.put(`${__db__}/repuestos/${id}`, fData);
+    dispatch(editSpareAction(id, fData, toggleEdit));
 
-      if (repuesto) {
-        setLoading(false);
-        setRepuestos(repuestos =>
-          repuestos.map(rep => {
-            if (rep._id === id) {
-              return Object.assign({}, rep, repuesto);
-            }
-            return rep;
-          })
-        );
-        setEditAlert(true);
-        setTimeout(() => {
-          setEditAlert(false);
-        }, 5000);
-      }
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-
-    toggleEdit();
+    setTimeout(() => {
+      dispatch(alertSuccessOffAction());
+    }, 3000);
   };
 
   const handleDelDS = () => {
@@ -121,16 +84,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
   };
 
   useEffect(() => {
-    if (spare) {
-      setName(spare.nombre);
-      setDesc(spare.descripcion);
-      setQuant(spare.cantidad);
-      setLoc(spare.ubicacion);
-      setImages(spare.images);
-      setAuxImages(spare.images);
-      setDatasheet(spare.datasheet);
-    }
-
     if (spare.images && spare.images.length > 0) {
       setHideDelImgs(true);
     }
@@ -152,7 +105,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                 name="nombre"
                 id="nombreIn"
                 value={name}
-                onChange={handleEditName}
+                onChange={e => handleSetValue(setName, e)}
               />
             </FormGroup>
             <FormGroup>
@@ -162,7 +115,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                 name="descripcion"
                 id="descripcionIn"
                 value={desc}
-                onChange={handleEditDesc}
+                onChange={e => handleSetValue(setDesc, e)}
               />
             </FormGroup>
             <FormGroup>
@@ -172,7 +125,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                 name="cantidad"
                 id="cantidadIn"
                 value={quant}
-                onChange={handleEditQuant}
+                onChange={e => handleSetValue(setQuant, e)}
               />
             </FormGroup>
             <FormGroup>
@@ -182,7 +135,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                 name="ubicacion"
                 id="ubicacionIn"
                 value={loc}
-                onChange={handleEditLocation}
+                onChange={e => handleSetValue(setLoc, e)}
               />
             </FormGroup>
           </div>
@@ -194,12 +147,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                 }`}
               >
                 *Selecciona las <strong>imágenes</strong> que deseas
-                borrar{" "}
-                {`${
-                  arrCancelImgs.length > 0 && hideDelImgs
-                    ? `(${arrCancelImgs.length})`
-                    : ""
-                }`}
+                borrar
               </p>
               <div className="d-flex">
                 {auxImages.length > 0 &&
@@ -207,19 +155,18 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                   auxImages.map(img => (
                     <ImageBox
                       img={img}
-                      arrCancelImgs={arrCancelImgs}
                       setArrCancelImgs={setArrCancelImgs}
                     />
                   ))}
               </div>
             </div>
-            <FormGroup className="mt-3">
+            <FormGroup>
               <Label for="images">Imágenes</Label>
               <Input
                 type="file"
                 name="images"
                 id="imagesIn"
-                onChange={handleCreateImages}
+                onChange={e => handleSetMultimedia(setImages, e)}
                 multiple
               />
             </FormGroup>
@@ -234,13 +181,13 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
                   <strong>{name.toUpperCase()}</strong>
                 </ButtonRB>
               ) : (
-                <FormGroup>
+                <FormGroup className="mt-1">
                   <Label for="datasheet">Datasheet</Label>
                   <Input
                     type="file"
                     name="datasheet"
                     id="datasheetIn"
-                    onChange={handleCreateDatasheet}
+                    onChange={e => handleSetFiles(setDatasheet, e)}
                     multiple
                   />
                 </FormGroup>
@@ -252,7 +199,7 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
         <Spinner
           color="primary"
           style={{ marginLeft: "33rem" }}
-          className={`${!loading ? "d-none" : ""}`}
+          className={`${!spinnerOn ? "d-none" : ""}`}
         />
         <Button
           color="danger"
@@ -267,6 +214,6 @@ function EditForm({ spare, toggleEdit, setEditAlert, setRepuestos }) {
       </Form>
     </div>
   );
-}
+};
 
-export default EditForm;
+export default EditSpareForm;

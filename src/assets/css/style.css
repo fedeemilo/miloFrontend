@@ -100,13 +100,16 @@ body {
   vertical-align: middle;
 }
 
-.components__table .ion-edit .svg {
-  color: yellow;
-}
-
-.components__table .ion-delete ion-icon {
-  color: red;
-  font-size: 1.5rem;
+.components__table .no-images {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .edit-form input[type="text"],
@@ -197,23 +200,32 @@ body {
   border-radius: 6px;
   -webkit-transition: 300ms;
   transition: 300ms;
-}
-
-.box:hover {
-  -webkit-box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.75);
-          box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.75);
-  cursor: pointer;
-}
-
-.box a {
   color: white;
   font-size: 1.65rem;
   font-weight: 800;
 }
 
-.box a:hover {
+.box:hover {
+  -webkit-box-shadow: 0px 0px 16px 0px rgba(31, 30, 30, 0.75);
+          box-shadow: 0px 0px 16px 0px rgba(31, 30, 30, 0.75);
+  cursor: pointer;
   color: white;
   text-decoration: none;
+}
+
+.box .new-feature {
+  position: absolute;
+  color: #28da28;
+  left: 42.2%;
+  -webkit-transform: rotate(30deg);
+          transform: rotate(30deg);
+  top: 35.5%;
+  border: 5px solid #28da28;
+  border-radius: 4px;
+  background: #1a771a;
+  padding: 5px;
+  font-size: 1rem;
+  font-weight: 900;
 }
 
 .box-disabled {

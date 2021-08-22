@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-const ImageBox = ({ img, arrCancelImgs, setArrCancelImgs }) => {
+const ImageBox = ({ img, setArrCancelImgs }) => {
   const [boxSelected, setBoxSelected] = useState(false);
 
   useEffect(() => {
     if (boxSelected) {
-      setArrCancelImgs(arrCancelImgs =>
-        arrCancelImgs.concat(img.public_id)
+      setArrCancelImgs(arr =>
+        arr.concat(img.public_id)
       );
     } else {
-      setArrCancelImgs(arrCancelImgs =>
-        arrCancelImgs.filter(public_id => public_id !== img.public_id)
+      setArrCancelImgs(arr =>
+        arr.filter(public_id => public_id !== img.public_id)
       );
     }
   }, [boxSelected, img, setArrCancelImgs]);

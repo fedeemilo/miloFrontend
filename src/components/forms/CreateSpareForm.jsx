@@ -1,5 +1,3 @@
-/* eslint-disable array-callback-return */
-import axios from "axios";
 import React, { useState } from "react";
 import {
   Button,
@@ -10,53 +8,25 @@ import {
   Spinner
 } from "reactstrap";
 import { __db__ } from "../../constants";
+import {
+  handleSetMultimedia,
+  handleSetValue
+} from "../utils/functions";
+import { useDispatch, useSelector } from "react-redux";
+import { createNewSpareAction } from "../../redux/spareDucks";
+import { alertSuccessOffAction } from "../../redux/globalDucks";
 
-function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
+const CreateSpareForm = ({ toggleCreate }) => {
   const [name, setName] = useState("");
   const [desc, setDesc] = useState("");
   const [loc, setLoc] = useState("");
   const [images, setImages] = useState([]);
   const [datasheet, setDatasheet] = useState([]);
   const [quant, setQuant] = useState(0);
-  const [loading, setLoading] = useState(false);
 
-  const handleCreateName = e => {
-    setName(e.target.value);
-  };
-
-  const handleCreateDesc = e => {
-    setDesc(e.target.value);
-  };
-
-  const handleCreateQuant = e => {
-    setQuant(e.target.value);
-  };
-
-  const handleCreateLocation = e => {
-    setLoc(e.target.value);
-  };
-
-  const handleCreateImages = e => {
-    let imgs = e.target.files;
-    let imgsArray = [];
-
-    Array.from(imgs).forEach(img => {
-      imgsArray.push(img);
-    });
-
-    setImages(imgsArray);
-  };
-
-  const handleCreateDatasheet = e => {
-    let datasheets = e.target.files;
-    let datasheetsArray = [];
-
-    Array.from(datasheets).forEach(datasheet => {
-      datasheetsArray.push(datasheet);
-    });
-
-    setDatasheet(datasheetsArray);
-  };
+  // redux
+  const dispatch = useDispatch();
+  const spinnerOn = useSelector(store => store.global.spinnerOn);
 
   const handleCreateSubmit = async e => {
     e.preventDefault();
@@ -82,30 +52,15 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
       fData.append("datasheet", sheet);
     });
 
-    try {
-      setLoading(true);
-      let {
-        data: { repuesto }
-      } = await axios.post(`${__db__}/repuestos`, fData);
+    dispatch(createNewSpareAction(fData, toggleCreate));
 
-      if (repuesto) {
-        setLoading(false);
-        setRepuestos(repuestos => [...repuestos, repuesto]);
-        setCreateAlert(true);
-        setTimeout(() => {
-          setCreateAlert(false);
-        }, 5000);
-      }
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-
-    toggleCreate();
+    setTimeout(() => {
+      dispatch(alertSuccessOffAction());
+    }, 3000);
   };
 
   return (
-    <div>
+    <div className="edit-form user-select-none">
       <Form
         onSubmit={handleCreateSubmit}
         encType="multipart/form-data"
@@ -119,7 +74,7 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
                 name="nombre"
                 id="nombreIn"
                 placeholder="Escribe el nombre..."
-                onChange={handleCreateName}
+                onChange={e => handleSetValue(setName, e)}
               />
             </FormGroup>
             <FormGroup>
@@ -129,7 +84,7 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
                 name="descripcion"
                 id="descripcionIn"
                 placeholder="Escribe la descripción..."
-                onChange={handleCreateDesc}
+                onChange={e => handleSetValue(setDesc, e)}
               />
             </FormGroup>
             <FormGroup>
@@ -139,7 +94,7 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
                 name="cantidad"
                 id="cantidadIn"
                 placeholder="Escribe la cantidad..."
-                onChange={handleCreateQuant}
+                onChange={e => handleSetValue(setQuant, e)}
               />
             </FormGroup>
             <FormGroup>
@@ -149,7 +104,7 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
                 name="ubicacion"
                 id="ubicacionIn"
                 placeholder="Escribe la ubicación..."
-                onChange={handleCreateLocation}
+                onChange={e => handleSetValue(setLoc, e)}
               />
             </FormGroup>
           </div>
@@ -160,7 +115,7 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
                 type="file"
                 name="images"
                 id="imagesIn"
-                onChange={handleCreateImages}
+                onChange={e => handleSetMultimedia(setImages, e)}
                 multiple
               />
             </FormGroup>
@@ -170,7 +125,7 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
                 type="file"
                 name="datasheet"
                 id="datasheetIn"
-                onChange={handleCreateDatasheet}
+                onChange={e => handleSetMultimedia(setDatasheet, e)}
                 multiple
               />
             </FormGroup>
@@ -178,8 +133,8 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
         </div>
         <Spinner
           color="primary"
-          style={{ marginLeft: "15rem" }}
-          className={`${!loading ? "d-none" : ""}`}
+          style={{ marginLeft: "34rem" }}
+          className={`${!spinnerOn ? "d-none" : ""}`}
         />
         <Button
           color="danger"
@@ -194,6 +149,6 @@ function CreateForm({ toggleCreate, setRepuestos, setCreateAlert }) {
       </Form>
     </div>
   );
-}
+};
 
-export default CreateForm;
+export default CreateSpareForm;

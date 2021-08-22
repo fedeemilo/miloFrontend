@@ -1,14 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/main/App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/main/App";
+import { Provider } from "react-redux";
+import generateStore from "./redux/store";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-ReactDOM.render(
-  <React.Fragment>
+let store = generateStore();
+
+let WithStore = () => (
+  <Provider store={store}>
     <App />
-  </React.Fragment>,
-  document.getElementById('root')
+  </Provider>
 );
 
-reportWebVitals();
+ReactDOM.render(<WithStore />, document.getElementById("root"));
