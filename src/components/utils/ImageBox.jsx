@@ -18,7 +18,7 @@ const ImageBox = ({ img, setArrCancelImgs }) => {
 
   return (
     <div
-      className={`image-box border-black-2 ${
+      className={`image-box -2 ${
         boxSelected ? "box-selected" : ""
       }`}
       onClick={() => setBoxSelected(!boxSelected)}

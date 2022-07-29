@@ -1,10 +1,14 @@
-import Routes from '../../Routes';
-import '../../assets/css/style.css';
+import Routes from "../../Routes";
+import "../../assets/css/style.css";
+import { NavBar } from "../";
 
 const App = () => {
-  return <Routes />;
+    return (
+        <>
+            <NavBar />
+            <Routes />
+        </>
+    );
 };
 
 export default App;
-
-
